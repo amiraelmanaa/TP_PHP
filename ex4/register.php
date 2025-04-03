@@ -37,8 +37,7 @@ try {
             <label for="email" >Email</label>
             <input type="email"  id="email" name="email" required>
 
-            <label for="id" >id</label>
-            <input type="text"  id="id" name="id" required>
+            
 
             <label for="role" >role</label>
             <input type="text"  id="role" name="role" required>
@@ -47,23 +46,31 @@ try {
             <label for="password" >Mot de passe</label>
             <input type="password"  id="password" name="password" required>
       
-        <button type="submit">S'inscrire</button>
+        <button type="submit" name="submit" >S'inscrire</button>
     </form>
     <?php      
     $username = $_POST['name'] ?? '';
     $password = $_POST['password'] ?? '';
     $email = $_POST['email'] ?? '';
-    $id = $_POST['id'] ?? '';
+
     $role = $_POST['role'] ?? '';
    
 
     if (isset($_POST['submit'])) {
-        $user = new user($id,$username,$email,$role,$password);    
+        $user = new user($email,$password);    
+        $user->setName($username);
+        $user->setrole($role);
+       
+
         $user->ajouter_user($cnx);
         echo "<p>Inscription réussie !</p>";
 
         
     }
+ 
+
+    
+  
                  ?>
 
                 

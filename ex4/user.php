@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 class user{
-    private int $id;
+    private int $cin;
     private string $username;
     private string $email;
     private string $role;
@@ -13,8 +13,8 @@ class user{
             $this->password = $password;
         }
 
-    public function getId() {
-        return $this->id;
+    public function getCin() {
+        return $this->cin;
     }
 
     public function getName() {
@@ -35,8 +35,8 @@ class user{
         $this->password = $password;
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setCin(int $id) {
+        $this->cin = $cin;
     }
     public function setName($name) {
         $this->username = $name;
@@ -56,8 +56,8 @@ class user{
         return $stmt->execute();
     }
     public function modifier_user($cnxex4) {
-        $stmt = $cnxex4->prepare("UPDATE users SET username = :username, email = :email, role = :role ,password = :password WHERE id = :id");
-        $stmt->bindParam(':id', $this->id);
+        $stmt = $cnxex4->prepare("UPDATE users SET username = :username, email = :email, role = :role ,password = :password WHERE cin = :cin");
+        $stmt->bindParam(':cin', $this->cin);
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':role', $this->role);
@@ -66,12 +66,12 @@ class user{
     }
     public function supprimer_user($cnxex4) {
         $stmt = $cnxex4->prepare("DELETE FROM users WHERE id = :id");
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':cin', $this->cin);
         return $stmt->execute();
     }
     public function afficher_user($cnxex4) {
-        $stmt = $cnxex4->prepare("SELECT * FROM users WHERE id = :id");
-        $stmt->bindParam(':id', $this->id);
+        $stmt = $cnxex4->prepare("SELECT * FROM users WHERE cin = :cin");
+        $stmt->bindParam(':cin', $this->cin);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -89,13 +89,13 @@ class user{
           
             if (password_verify($password, $user['password'])) {
                 
-                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_cin'] = $user['cin'];
                 $_SESSION['role'] = $user['role'];
                 return true;
             } else {
                 
                 if ($password === $user['password']) {
-                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_cin'] = $user['cin'];
                     $_SESSION['role'] = $user['role'];
                     return true;
                 }
@@ -104,7 +104,7 @@ class user{
         return false;
     }
     public function authentification() {
-        return isset($_SESSION['user_id']); 
+        return isset($_SESSION['user_cin']); 
     }
     public function logout() {
         session_unset(); 

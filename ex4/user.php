@@ -35,7 +35,7 @@ class user{
         $this->password = $password;
     }
 
-    public function setCin(int $id) {
+    public function setCin(int $cin) {
         $this->cin = $cin;
     }
     public function setName($name) {

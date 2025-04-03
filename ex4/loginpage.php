@@ -1,45 +1,38 @@
 <?php
+include 'user.php'; 
 session_start();
 
-
-$host = "sql7.freesqldatabase.com";
-$dbname = "sql7771121";
-$username = "sql7771121";
-$password = "7MpCGHJkUT";
-$port = "3306";
+$host = "sql7.freesqldatabase.com"; 
+$dbname = "sql7771121"; 
+$username = "sql7771121"; 
+$password = "7MpCGHJkUT"; 
+$port = "3306";  
 
 try {
     $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
     $cnx = new PDO($dsn, $username, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]);
+    ]); 
 } catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
+    die("Erreur de connexion : " . $e->getMessage()); 
 }
 
+$error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user = $_POST['username'] ?? '';
-    $pass = $_POST['password'] ?? '';
-
     
-    $query = "SELECT * FROM users WHERE username = :username AND password = :password";
-    $stmt = $cnx->prepare($query);
-    $stmt->execute([
-        'username' => $user,
-        'password' => $pass
-    ]);
-
-    $user = $stmt->fetch();
-
-    if ($user) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        header("Location: dashboard.php"); 
-        exit();
+    if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email']) && !empty($_POST['password'])) {
+      
+        $user = new user($_POST['email'], $_POST['password']);
+        if ($user->login($cnx, $_POST['email'], $_POST['password'])) {
+            header("Location: home.php");
+            exit();
+        } else {
+            $error = "Email ou mot de passe incorrect";
+        }
     } else {
-        $error = "Nom d'utilisateur ou mot de passe incorrect.";
+        $error = "Veuillez remplir tous les champs";
     }
 }
 ?>
@@ -54,20 +47,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="container mt-5">
-               <h1 class="text-center">Connexion</h1>
+        <h1 class="text-center">Connexion</h1>
         <form method="POST" action="">
             <div class="mb-3">
-               
-            <label for="username" class="form-label">Nom d'utilisateur</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+                <label for="email" class="form-label">Email de l'utilisateur</label>
+                <input type="email" class="form-control" id="email" name="email" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Mot de passe</label>
-             <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <?php if (!empty($error)): ?>
-               <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
-         <?php endif; ?>
+                <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+            <?php endif; ?>
             <button type="submit" class="btn btn-primary">Se connecter</button>
         </form>
     </div>

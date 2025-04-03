@@ -1,16 +1,21 @@
 <?php
 if (isset($_GET['page'])) {
     if ($_GET['page'] == 'students') {
-        header("Location: etudintlist.php");
+        header("Location: ex4.php");
         exit();
     } elseif ($_GET['page'] == 'sections') {
-        header("Location: sectionlist.php");
+        header("Location: listesections.php");
         exit();
     } elseif ($_GET['page'] == 'home') {
-        header("Location: home.php"); // Assuming this is the current page
+        header("Location: home.php");
+        exit();
+    }
+    elseif ($_GET['page'] == 'logout') {
+        header("Location: loginpage.php");
         exit();
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +59,7 @@ if (isset($_GET['page'])) {
                     <a class="nav-link" href="?page=sections">📚 Section List</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-outline-light ms-2">🚪 Logout</button>
+                    <a class="nav-link" href="?page=logout">🚪 Logout</a>
                 </li>
             </ul>
         </div>

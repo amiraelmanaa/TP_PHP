@@ -1,17 +1,35 @@
+<?php
+if (isset($_GET['page'])) {
+    if ($_GET['page'] == 'students') {
+        header("Location: ex4.php");
+        exit();
+    } elseif ($_GET['page'] == 'sections') {
+        header("Location: listesections.php");
+        exit();
+    } elseif ($_GET['page'] == 'home') {
+        header("Location: home.php");
+        exit();
+    }
+    elseif ($_GET['page'] == 'logout') {
+        header("Location: loginpage.php");
+        exit();
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau des Étudiants</title>
+    <title>Student List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
+            padding:0;
         }
         table {
             width: 100%;
@@ -37,11 +55,46 @@
             object-fit: cover;
             border-radius: 5px;
         }
+        .navbar {
+            background-color: rgb(31, 138, 214) !important;
+        }
+        .welcome-box {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+    
     </style>
 </head>
 <body>
-
-    <h1>Liste des Étudiants</h1>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">📚 Student Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="?page=home">🏠 Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=students">📋 Student List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=sections">📚 Section List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=logout">🚪 Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <h1>Student List</h1>
 
     <?php
     $host = "sql7.freesqldatabase.com";
@@ -59,8 +112,6 @@
     } catch (PDOException $e) {
         die("Erreur de connexion : " . $e->getMessage());
     }
-
-    // Fonction sécurisée pour récupérer le nom de la section
     function affichenomsection($sectionid, $cnxex4) {
         $req = "SELECT designation FROM section WHERE id = :id";
         $stmt = $cnxex4->prepare($req);

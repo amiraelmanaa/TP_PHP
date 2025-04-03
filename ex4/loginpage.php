@@ -62,6 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
             <button type="submit" class="btn btn-primary">Se connecter</button>
         </form>
+
+        <div class="mt-3 text-center">
+            <a href="register.php">Créer un compte</a>
+            
+
+
+
+
     </div>
 </body>
 </html>

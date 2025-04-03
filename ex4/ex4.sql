@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3308
--- Généré le : jeu. 03 avr. 2025 à 15:41
+-- Hôte : 127.0.0.1:3307
+-- Généré le : jeu. 03 avr. 2025 à 16:07
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -40,7 +40,7 @@ CREATE TABLE `student` (
 
 INSERT INTO `student` (`id`, `name`, `birthday`, `image`) VALUES
 (2300166, 'garbâa aziza', '2004-02-06', NULL),
-(2300758, 'Manaa amira', '2004-06-07', NULL),
+(2300758, 'El manaa amira', '2004-06-07', NULL),
 (2300958, 'Briki Islem', '2004-10-11', NULL);
 
 --

@@ -40,7 +40,7 @@
     <?php
   
     try {
-        $cnxex4 = new PDO('mysql:host=localhost;dbname=ex4;port=3308', 'root', '');
+        $cnxex4 = new PDO('mysql:host=localhost;dbname=ex4;port=3307', 'root', '');
         
     } catch (PDOException $e) {
         die($e->getMessage());

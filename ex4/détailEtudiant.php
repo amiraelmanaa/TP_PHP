@@ -96,7 +96,7 @@
     
         </table>
 
-        <a href="ex5.php" class="back-button">Retour à la liste des étudiants</a>
+        <a href="ex4.php" class="back-button">Retour à la liste des étudiants</a>
     </div>
 
 </body>

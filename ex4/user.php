@@ -6,11 +6,10 @@ class user{
     private string $email;
     private string $role;
     private string $password;
-    public function __construct(int $id, string $name, string $email, string $role ,string $password) {
-        $this->id = $id;
-        $this->username = $name;
+    public function __construct( string $email,string $password) {
+        
         $this->email = $email;
-            $this->role = $role;
+            
             $this->password = $password;
         }
 
@@ -77,19 +76,32 @@ class user{
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function login($cnxex4,$email, $password) {
+    public function login($cnxex4, $email, $password) {
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $cnxex4->prepare($sql);
-        $stmt->execute(['email' => $email]); 
+        $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
-
-        if ($user && password_verify($password, $user['password'])) {
-            session_start(); 
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-            return true; 
+        
+      
+        error_log("Tentative de connexion pour l'email: " . $email);
+        
+        if ($user) {
+          
+            if (password_verify($password, $user['password'])) {
+                
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
+                return true;
+            } else {
+                
+                if ($password === $user['password']) {
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['role'] = $user['role'];
+                    return true;
+                }
+            }
         }
-        return false; 
+        return false;
     }
     public function authentification() {
         return isset($_SESSION['user_id']); 

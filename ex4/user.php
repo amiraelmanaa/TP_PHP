@@ -95,7 +95,6 @@ class user{
         return isset($_SESSION['user_id']); 
     }
     public function logout() {
-        session_start(); 
         session_unset(); 
         session_destroy(); 
     }
@@ -105,5 +104,6 @@ class user{
     public function isuser() {
         return isset($_SESSION['role']) && $_SESSION['role'] === 'user'; 
     }
+
 }
 ?>

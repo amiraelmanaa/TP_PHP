@@ -9,13 +9,11 @@ if (isset($_GET['page'])) {
     } elseif ($_GET['page'] == 'home') {
         header("Location: home.php");
         exit();
-    }
-    elseif ($_GET['page'] == 'logout') {
+    } elseif ($_GET['page'] == 'logout') {
         header("Location: loginpage.php");
         exit();
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -58,15 +56,6 @@ if (isset($_GET['page'])) {
         .navbar {
             background-color: rgb(31, 138, 214) !important;
         }
-        .welcome-box {
-            text-align: center;
-            padding: 40px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
-        }
-    
     </style>
 </head>
 <body>
@@ -94,51 +83,69 @@ if (isset($_GET['page'])) {
         </div>
     </div>
 </nav>
-    <h1>Student List</h1>
+<h1>Student List</h1>
+<div class="d-flex justify-content-between align-items-center my-3">
+    <a href="add_student.php" class="btn btn-success">➕ Add Student</a>
+    <form method="GET" class="d-flex">
+        <input type="text" name="search" class="form-control me-2" placeholder="Search by name..." 
+               value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+        <button type="submit" class="btn btn-primary">🔍 Search</button>
+        <a href="ex4.php" class="btn btn-secondary ms-2">Reset</a>
+    </form>
+</div>
+<?php
+$host = "sql7.freesqldatabase.com";
+$dbname = "sql7771121";
+$username = "sql7771121";
+$password = "7MpCGHJkUT";
+$port = "3306";
+try {
+    $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+    $cnxex4 = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
+function affichenomsection($sectionid, $cnxex4) {
+    $req = "SELECT designation FROM section WHERE id = :id";
+    $stmt = $cnxex4->prepare($req);
+    $stmt->execute(['id' => $sectionid]);
+    $row = $stmt->fetch();
+    return $row ? $row['designation'] : "Inconnue";
+}
+// Search filter logic
+$searchQuery = "";
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $searchQuery = " WHERE name LIKE :search ";
+}
+$requete = "SELECT * FROM student" . $searchQuery;
+$stmt = $cnxex4->prepare($requete);
 
-    <?php
-    $host = "sql7.freesqldatabase.com";
-    $dbname = "sql7771121";
-    $username = "sql7771121";
-    $password = "7MpCGHJkUT";
-    $port = "3306"; 
-
-    try {
-        $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
-        $cnxex4 = new PDO($dsn, $username, $password, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ]);
-    } catch (PDOException $e) {
-        die("Erreur de connexion : " . $e->getMessage());
-    }
-    function affichenomsection($sectionid, $cnxex4) {
-        $req = "SELECT designation FROM section WHERE id = :id";
-        $stmt = $cnxex4->prepare($req);
-        $stmt->execute(['id' => $sectionid]);
-        $row = $stmt->fetch();
-        return $row ? $row['designation'] : "Inconnue";
-    }
-
-    $requete = "SELECT * FROM student";
-    $response = $cnxex4->query($requete);
-
-    echo "<table>";
-    echo "<tr><th>ID</th><th>Nom</th><th>Date de Naissance</th><th>Section</th><th>Image</th> <th> action</th></tr>"; 
-
-    while ($row = $response->fetch()) {
-        echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['id']) . "</td>"; 
-        echo "<td>" . htmlspecialchars($row['name']) . "</td>"; 
-        echo "<td>" . htmlspecialchars($row['birthday']) . "</td>"; 
-        echo "<td>" . htmlspecialchars(affichenomsection($row['section'], $cnxex4)) . "</td>";
-        echo "<td><img src='" . htmlspecialchars($row['image']) . "' alt='Photo'></td>";
-        echo "<td><a href='détailEtudiant.php?id=" . $row['id'] . "' class='link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'><i class='bi bi-info-circle-fill'></i></a></td>";
-        echo "</tr>";
-    }
-
-    echo "</table>";
-    ?>
-
+if ($searchQuery) {
+    $stmt->execute(['search' => "%" . $_GET['search'] . "%"]);
+} else {
+    $stmt->execute();
+}
+$response = $stmt;
+echo "<table>";
+echo "<tr><th>ID</th><th>Nom</th><th>Date de Naissance</th><th>Section</th><th>Image</th><th>Actions</th></tr>";
+while ($row = $response->fetch()) {
+    echo "<tr>";
+    echo "<td>" . htmlspecialchars($row['id']) . "</td>"; 
+    echo "<td>" . htmlspecialchars($row['name']) . "</td>"; 
+    echo "<td>" . htmlspecialchars($row['birthday']) . "</td>"; 
+    echo "<td>" . htmlspecialchars(affichenomsection($row['section'], $cnxex4)) . "</td>";
+    echo "<td><img src='" . htmlspecialchars($row['image']) . "' alt='Photo'></td>";
+    echo "<td>
+        <a href='détailEtudiant.php?id=" . $row['id'] . "' class='text-info'><i class='bi bi-info-circle-fill'></i></a>
+        <a href='delete_student.php?id=" . $row['id'] . "' class='text-danger' onclick='return confirm(\"Are you sure?\");'><i class='bi bi-trash-fill'></i></a>
+        <a href='edit_student.php?id=" . $row['id'] . "' class='text-warning'><i class='bi bi-pencil-fill'></i></a>
+    </td>";
+    echo "</tr>";
+}
+echo "</table>";
+?>
 </body>
 </html>

@@ -48,7 +48,7 @@ class Pokemon{
 
     }
     public function attack(Pokemon $p){
-        // nakhtar nombre random bin min w max
+        
         $attackpts = rand($this->attackPokemon->getAttackMinimal(),$this->attackPokemon->getAttackMaximal());
         if( $this->attackPokemon->getProbabilitySpecialAttack() > 0.5){
             $attackpts += $this->attackPokemon->getSpecialAttack();

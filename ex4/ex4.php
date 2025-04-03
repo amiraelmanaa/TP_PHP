@@ -38,10 +38,18 @@
     <h1>Liste des Étudiants</h1>
 
     <?php
-  
+    $host = "sql7.freesqldatabase.com";
+    $dbname = "sql7771121";
+    $username = "sql7771121";
+    $password = "7MpCGHJkUT";
+    $port = "3306"; 
+    
     try {
-        $cnxex4 = new PDO('mysql:host=localhost;dbname=ex4;port=3307', 'root', '');
-        
+        $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+        $cnxex4 = new PDO($dsn, $username, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
     } catch (PDOException $e) {
         die($e->getMessage());
     }

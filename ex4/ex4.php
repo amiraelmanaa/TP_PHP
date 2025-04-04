@@ -1,4 +1,13 @@
 <?php
+require_once('auth.php');
+?>
+<?php
+//session_start();
+require_once 'user.php'; // Replace with actual file name if needed
+$user = new user('', '');
+$isAdmin = $user->isadmin();
+?>
+<?php
 if (isset($_GET['page'])) {
     if ($_GET['page'] == 'students') {
         header("Location: ex4.php");
@@ -10,9 +19,11 @@ if (isset($_GET['page'])) {
         header("Location: home.php");
         exit();
     } elseif ($_GET['page'] == 'logout') {
-        header("Location: loginpage.php");
+        session_unset(); 
+        session_destroy();
+        header("Location: loginpage.php?message=You+have+been+logged+out+successfully");
         exit();
-    }
+        }
 }
 ?>
 <!DOCTYPE html>
@@ -85,7 +96,10 @@ if (isset($_GET['page'])) {
 </nav>
 <h1>Student List</h1>
 <div class="d-flex justify-content-between align-items-center my-3">
+<?php if ($isAdmin): ?>
     <a href="add_student.php" class="btn btn-success">➕ Add Student</a>
+<?php endif; ?>
+
     <form method="GET" class="d-flex">
         <input type="text" name="search" class="form-control me-2" placeholder="Search by name..." 
                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
@@ -138,11 +152,13 @@ while ($row = $response->fetch()) {
     echo "<td>" . htmlspecialchars($row['birthday']) . "</td>"; 
     echo "<td>" . htmlspecialchars(affichenomsection($row['section'], $cnxex4)) . "</td>";
     echo "<td><img src='" . htmlspecialchars($row['image']) . "' alt='Photo'></td>";
-    echo "<td>
-        <a href='détailEtudiant.php?id=" . $row['id'] . "' class='text-info'><i class='bi bi-info-circle-fill'></i></a>
-        <a href='delete_student.php?id=" . $row['id'] . "' class='text-danger' onclick='return confirm(\"Are you sure?\");'><i class='bi bi-trash-fill'></i></a>
-        <a href='edit_student.php?id=" . $row['id'] . "' class='text-warning'><i class='bi bi-pencil-fill'></i></a>
-    </td>";
+    echo "<td>";
+echo "<a href='détailEtudiant.php?id=" . $row['id'] . "' class='text-info'><i class='bi bi-info-circle-fill'></i></a> ";
+if ($isAdmin) {
+    echo "<a href='delete_student.php?id=" . $row['id'] . "' class='text-danger' onclick='return confirm(\"Are you sure?\");'><i class='bi bi-trash-fill'></i></a> ";
+    echo "<a href='edit_student.php?id=" . $row['id'] . "' class='text-warning'><i class='bi bi-pencil-fill'></i></a>";
+}
+echo "</td>";
     echo "</tr>";
 }
 echo "</table>";

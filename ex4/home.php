@@ -1,4 +1,7 @@
 <?php
+require_once('auth.php');
+?>
+<?php
 if (isset($_GET['page'])) {
     if ($_GET['page'] == 'students') {
         header("Location: ex4.php");
@@ -11,11 +14,12 @@ if (isset($_GET['page'])) {
         exit();
     }
     elseif ($_GET['page'] == 'logout') {
-        header("Location: loginpage.php");
-        exit();
+    session_unset();
+    session_destroy();
+    header("Location: loginpage.php?message=You+have+been+logged+out+successfully");
+    exit();
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -69,7 +69,8 @@ try {
         $user->setName($username);
         $user->setrole($role);
         $user->ajouter_user($cnx);
-        echo "<p>Inscription réussie !</p>";
+        header("Location: loginpage.php?message=Inscription+reussie!");
+        //echo "<p>Inscription réussie !</p>";
     }
      ?>
 </body>

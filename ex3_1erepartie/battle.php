@@ -72,7 +72,7 @@ $pokemon2 = new Pokemon("Bulbasaur", "buu.jpg", 100, new AttackPokemon(8, 15, 3,
 
     <div id="battle" style="display: none;">
         <h2>Battle</h2>
-        <p id="battle-status"></p> <!-- Affiche les messages de progression -->
+        <p id="battle-status"></p> 
         <div id="battle-result" style="display: none;">
             <h3>Battle Result</h3>
             <?php
@@ -97,16 +97,14 @@ $pokemon2 = new Pokemon("Bulbasaur", "buu.jpg", 100, new AttackPokemon(8, 15, 3,
             let battleStatus = document.getElementById("battle-status");
             let battleResult = document.getElementById("battle-result");
 
-            // 1️⃣ Afficher la section de combat immédiatement avec "Battle in Progress..."
             battleDiv.style.display = "block";
             battleStatus.innerHTML = "<h2>Battle in Progress...</h2>";
 
-            // 2️⃣ Après 2 secondes, afficher "Battle Finished"
+            
             setTimeout(function() {
                 battleStatus.innerHTML = "<h2>Battle Finished</h2>";
             }, 2000);
 
-            // 3️⃣ Après 4 secondes, afficher le résultat du combat en PHP
             setTimeout(function() {
                 battleResult.style.display = "block";
             }, 4000);
@@ -115,7 +113,7 @@ $pokemon2 = new Pokemon("Bulbasaur", "buu.jpg", 100, new AttackPokemon(8, 15, 3,
     
 <?php
 if (isset($_POST["reset"])) {
-    // Reload the page to reset the battle
+    
     header("Location: battle.php");
     exit();
 }

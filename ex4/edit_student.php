@@ -30,7 +30,6 @@ if (isset($_GET['id'])) {
     $sections = $cnxex4->query($sectionQuery)->fetchAll();
 }
 
-// Update student info
 if (isset($_POST['update'])) {
     $id_old = $_POST['id_old'];
     $id_new = $_POST['id'];

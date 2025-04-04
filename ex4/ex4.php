@@ -3,7 +3,7 @@ require_once('auth.php');
 ?>
 <?php
 //session_start();
-require_once 'user.php'; // Replace with actual file name if needed
+require_once 'user.php'; 
 $user = new user('', '');
 $isAdmin = $user->isadmin();
 ?>

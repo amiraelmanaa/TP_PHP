@@ -16,7 +16,7 @@ try {
     die("Erreur de connexion : " . $e->getMessage()); 
 }
 $error = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['connecter'])) {
     
     if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email']) && !empty($_POST['password'])) {
       
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
-            <button type="submit" class="btn btn-primary">Se connecter</button>
+            <button type="submit" name="connecter" class="btn btn-primary">Se connecter</button>
         </form>
 
         <a href="register.php" class="register-link">Créer un compte</a>

@@ -55,26 +55,48 @@ class user{
         $stmt->bindParam(':password', $this->password);
         return $stmt->execute();
     }
+
+
     public function modifier_user($cnxex4) {
-        $stmt = $cnxex4->prepare("UPDATE users SET username = :username, email = :email, role = :role ,password = :password WHERE cin = :cin");
-        $stmt->bindParam(':cin', $this->cin);
-        $stmt->bindParam(':username', $this->username);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':role', $this->role);
-        $stmt->bindParam(':password', $this->password);
-        return $stmt->execute();
-    }
+    
+    $stmt = $cnxex4->prepare("UPDATE users SET username = :username, email = :email, role = :role, password = :password WHERE cin = :cin");
+    $stmt->bindParam(':username', $this->username);
+    $stmt->bindParam(':email', $this->email);
+    $stmt->bindParam(':role', $this->role);
+    $stmt->bindParam(':password', $this->password);
+    $stmt->bindParam(':cin', $this->cin); 
+    return $stmt->execute();
+}
+
+
     public function supprimer_user($cnxex4) {
-        $stmt = $cnxex4->prepare("DELETE FROM users WHERE id = :id");
+        $stmt = $cnxex4->prepare("DELETE FROM users WHERE cin = :cin");
         $stmt->bindParam(':cin', $this->cin);
         return $stmt->execute();
     }
-    public function afficher_user($cnxex4) {
+
+
+
+
+    public function afficher_user($cnxex4, $cin) {
         $stmt = $cnxex4->prepare("SELECT * FROM users WHERE cin = :cin");
-        $stmt->bindParam(':cin', $this->cin);
+        $stmt->bindParam(':cin', $cin, PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($user) {
+            $this->cin = $user['cin']; 
+            $this->username = $user['username']; 
+            $this->email = $user['email'];  
+            $this->role = $user['role']; 
+        }
+        
+        return $user;
     }
+    
+    
+
+
 
     public function login($cnxex4, $email, $password) {
         $sql = "SELECT * FROM users WHERE email = :email";
@@ -91,12 +113,19 @@ class user{
                 session_start();
                 $_SESSION['user_cin'] = $user['cin'];
                 $_SESSION['role'] = $user['role'];
+                $_SESSION['user_name'] = $user['username'];
+                $_SESSION['user_email'] = $user['email'];
+                $_SESSION['user_password'] = $user['password'];
+                
                 return true;
             } else {
                 
                 if ($password === $user['password']) {
                     $_SESSION['user_cin'] = $user['cin'];
                     $_SESSION['role'] = $user['role'];
+                    $_SESSION['user_name'] = $user['username'];
+                $_SESSION['user_email'] = $user['email'];
+                $_SESSION['user_password'] = $user['password'];
                     return true;
                 }
             }
@@ -105,10 +134,6 @@ class user{
     }
     public function authentification() {
         return isset($_SESSION['user_cin']); 
-    }
-    public function logout() {
-        session_unset(); 
-        session_destroy(); 
     }
     public function isadmin() {
         return isset($_SESSION['role']) && $_SESSION['role'] === 'admin'; 

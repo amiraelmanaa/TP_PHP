@@ -1,4 +1,7 @@
 <?php
+require_once('auth.php');
+?>
+<?php
     $host = "sql7.freesqldatabase.com";
     $dbname = "sql7771121";
     $username = "sql7771121";

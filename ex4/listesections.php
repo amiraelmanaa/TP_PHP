@@ -1,5 +1,7 @@
 <?php
-// Database connection
+require_once('auth.php');
+?>
+<?php
 $host = "sql7.freesqldatabase.com";
 $dbname = "sql7771121";
 $username = "sql7771121";
@@ -16,11 +18,8 @@ try {
     die("Erreur de connexion : " . $e->getMessage());
 }
 
-// Handle Export
 if (isset($_GET['export'])) {
     $format = $_GET['export'];
-
-    // Fetch sections
     $requete = "SELECT * FROM section";
     $response = $cnxex4->query($requete);
     $sections = $response->fetchAll();
@@ -101,9 +100,11 @@ if (isset($_GET['page'])) {
         exit();
     }
     elseif ($_GET['page'] == 'logout') {
-        header("Location: loginpage.php");
+        session_unset(); 
+        session_destroy();
+        header("Location: loginpage.php?message=You+have+been+logged+out+successfully");
         exit();
-    }
+        }
 }
 ?>
 <!DOCTYPE html>

@@ -88,7 +88,7 @@ class user{
         if ($user) {
           
             if (password_verify($password, $user['password'])) {
-                
+                session_start();
                 $_SESSION['user_cin'] = $user['cin'];
                 $_SESSION['role'] = $user['role'];
                 return true;

@@ -1,13 +1,11 @@
 <?php
 include 'user.php'; 
 session_start();
-
 $host = "sql7.freesqldatabase.com"; 
 $dbname = "sql7771121"; 
 $username = "sql7771121"; 
 $password = "7MpCGHJkUT"; 
 $port = "3306";  
-
 try {
     $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
     $cnx = new PDO($dsn, $username, $password, [
@@ -17,9 +15,7 @@ try {
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage()); 
 }
-
 $error = "";
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email']) && !empty($_POST['password'])) {
@@ -36,12 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<?php if (isset($_GET['message'])): ?>
+    <script>
+        alert("<?= htmlspecialchars($_GET['message']) ?>");
+    </script>
+<?php endif; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de Connexion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {

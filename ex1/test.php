@@ -4,7 +4,7 @@ spl_autoload_register(function ($class_name) {
 });
 
 session_start();
-//bouton effacer
+
 if (isset($_POST['clear'])) {
     session_unset(); 
     session_destroy(); 
@@ -32,7 +32,7 @@ $etudiants = $_SESSION['etudiants'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcul Moyenne des etudiants</title>
+    <title>Calcul  des moyennes des etudiants</title>
     <style>
 
         #one {
@@ -79,6 +79,10 @@ $etudiants = $_SESSION['etudiants'];
             padding: 10px;
             border-radius: 5px;
         }
+        li{
+             cursor: pointer;
+        }
+      
     </style>
 </head>
 

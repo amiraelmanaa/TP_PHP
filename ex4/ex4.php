@@ -79,10 +79,10 @@ if (isset($_GET['page'])) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="?page=home">🏠 Home</a>
+                    <a class="nav-link " href="?page=home">🏠 Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="?page=students">📋 Student List</a>
+                    <a class="nav-link active" href="?page=students">📋 Student List</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?page=sections">📚 Section List</a>

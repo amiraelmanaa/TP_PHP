@@ -10,9 +10,9 @@ It is also important to not that in  **Exercise 4: the student managment applica
  If you want to access it, use the following credentials:  
 ```php
 $host = "sql7.freesqldatabase.com";
-$dbname = "sql7771121";
-$username = "sql7771121";
-$password = "7MpCGHJkUT";
+$dbname = "sql7772406";
+$username = "sql7772406";
+$password = "yF7kWEAscw";
 $port = "3306";
 ```
 ℹ️You can connect to the database using **PHPMyAdmin** or any MySQL client.

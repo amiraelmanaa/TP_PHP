@@ -2,9 +2,9 @@
 require "Repository.php";
 
 $host = "sql7.freesqldatabase.com";
-$dbname = "sql7771121";
-$username = "sql7771121";
-$password = "7MpCGHJkUT";
+$dbname = "sql7772406";
+$username = "sql7772406";
+$password = "yF7kWEAscw";
 $port = "3306";
 try {
     $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
@@ -17,7 +17,6 @@ try {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -317,9 +316,6 @@ img {
             }
         }
         ?>
-       
-    
-
     </div>
     
 </body>
